@@ -1,10 +1,11 @@
 package models
 
 import (
+	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type TransactionType string
@@ -18,6 +19,7 @@ const (
 )
 
 type Transaction struct {
+	gorm.Model
 	ID                  uuid.UUID
 	CustomerID          uuid.UUID
 	SenderID            uuid.UUID
@@ -28,11 +30,8 @@ type Transaction struct {
 	OutputCurrencyCode  string
 	OutputAmountInCents string
 	ExternalID          string
-	CreatedAt           time.Time
-	UpdatedAt           time.Time
-	DeletedAt           time.Time
-	ExpiresAt           time.Time
-	InvalidAt           time.Time
+	ExpiresAt           sql.NullTime
+	InvalidAt           sql.NullTime
 }
 
 func (t *Transaction) GetReferenceForHumans() string {
